@@ -5,6 +5,7 @@
     padding: 2px 2px 2px 2px;
     padding: 2px 2px 2px 2px;
     background:  #CCCCCC;
+    z-index:999999;
     /* background:  #CCCCCC; */
 }
 
@@ -51,4 +52,9 @@
 .ui-chatbox-msg {
     float: left;
     clear: both;
+}
+
+/* List styles */
+.online {
+      background-color: #008000;
 }

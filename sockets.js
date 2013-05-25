@@ -55,6 +55,8 @@ io.sockets.on('connection', function (socket) {
         socket.set('room', room, function() { console.log('room ' + room + ' saved'); } );
         socket.username = room;
         socket.join(room);
+        //to all sockets
+	    io.sockets.emit('joinedUser', socket.username);
     });
 
     socket.on('sendChat', function(data){
@@ -67,6 +69,6 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        socket.broadcast.emit('user left');
+	    io.sockets.emit('logoutUser', socket.username);
     });
 });

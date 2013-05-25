@@ -1,7 +1,19 @@
+alert("aaaa")
+    var getOffsetWin = function(){
+        console.log(250*($("div[id*=user-chat-]:visible").size()-1));    
+        return 250*($("div[id*=user-chat-]:visible").size()-1);    
+    }
+    var closedWin = function(){
+        //Re arrange windows
+        $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
+           $(this).chatbox("option", "offset", 250*i)
+        })
+		//$("#" + showList[i]).chatbox("option", "offset", offset - diff);
+    }
 
-
-$(document).ready(function(){
-    var socket = io.connect('http://'+window.location.host);
+//jQuery(document).ready(function(){
+    var port = (window.location.port=="")?":3200":"";
+    var socket = io.connect('http://'+window.location.host+port);
 
     //Receive chat
 	socket.on('chatIn', function (username, data) {
@@ -22,9 +34,29 @@ $(document).ready(function(){
 
 	}); 
 
+    //new user joins
+	socket.on('joinedUser', function (username) {
+		console.log('joinedUser>>',username);
+        $('ul#users li a').each(function(i,v){
+            if($(v).html()==username){
+                $(this).addClass('online');    
+            }    
+        });
+	}); 
+
+    //user left the site
+	socket.on('logoutUser', function (username) {
+		console.log('joinedUser>>',username);
+        $('ul#users li a').each(function(i,v){
+            if($(v).html()==username){
+                $(this).removeClass('online');    
+            }    
+        });
+	}); 
+
     // Join Room
 	socket.emit('joinRoom', superGlobal);
-	socket.emit('sendChat', { msg: 'User connected!' });
+	//socket.emit('sendChat', { msg: 'User connected!' });
     $("#userId").html(superGlobal);
 
     //ChatBox Manager
@@ -57,19 +89,9 @@ $(document).ready(function(){
           event.preventDefault();
       });
 
-    var getOffsetWin = function(){
-        console.log(250*($("div[id*=user-chat-]:visible").size()-1));    
-        return 250*($("div[id*=user-chat-]:visible").size()-1);    
-    }
-    var closedWin = function(){
-        //Re arrange windows
-        $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
-           $(this).chatbox("option", "offset", 250*i)
-        })
-		//$("#" + showList[i]).chatbox("option", "offset", offset - diff);
-    }
+   
     // Select user to chat with
-    $('ul#users li a').click(function(e){
+    $('ul#users li a').live("click",function(e){
        e.preventDefault();
        e.stopPropagation();
        if($("#user-chat-"+$(this).html()).size()==0){
@@ -89,10 +111,13 @@ $(document).ready(function(){
            /*
            console.log("re-arrange", $("#user-chat-"+$(this).html()))
            $("#user-chat-"+$(this).html()).show();
-           $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
-             $(this).chatbox("option", "offset", 250*i)
-           });
            */
+            console.log("already exist");
+            var size = ($("div[id*=user-chat-]:visible").size()==1)?0:$("div[id*=user-chat-]:visible").size();
+            $("#user-chat-"+$(this).html()).show().parent().show().parent().show();//.chatbox("option", "offset", 250*size);
+            $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
+               $(this).chatbox("option", "offset", 250*i)
+            });
        }
     });
     //ChatBox Single
@@ -104,5 +129,6 @@ $(document).ready(function(){
 	                socket.emit('sendChat', { msg: msg, user: user});
       }});
     */
-});
+    console.log("ready loaded")
+//});
 
