@@ -16,7 +16,7 @@ $(document).ready(function(){
             }    
         });
 
-        $("#user-chat").chatbox("option", "boxManager").addMsg(username, data.msg);
+        $("#user-chat-"+username).chatbox("option", "boxManager").addMsg(username, data.msg);
 	}); 
 
     // Join Room
@@ -55,15 +55,18 @@ $(document).ready(function(){
       });
     // Select user to chat with
     $('ul#users li a').click(function(e){
-        e.preventDefault();
+       e.preventDefault();
        e.stopPropagation();
-       $("#user-chat").chatbox({
+       if($("#user-chat-"+$(this).html()).size()==0){
+            $("body").append("<div id='user-chat-"+$(this).html()+"'></div>")
+       }
+       $("body").find("#user-chat-"+$(this).html()).chatbox({
                   user: $(this).html(),
                   title: 'Chat with '+$(this).html(),
                   offset: 250,
                   messageSent: function(id, user, msg){
 	                socket.emit('sendChat', { msg: msg, user: user});
-                    $("#user-chat").chatbox("option", "boxManager").addMsg(superGlobal, msg);
+                    $("#user-chat-"+user).chatbox("option", "boxManager").addMsg(superGlobal, msg);
        }});
     });
     //ChatBox Single
