@@ -3,22 +3,32 @@
 $(document).ready(function(){
     var socket = io.connect('http://'+window.location.host);
 
+    //Receive chat
 	socket.on('chatIn', function (username, data) {
+		console.log('chatIn>>',data);
         $('body').append('<b>'+username + ':</b> ' + data.msg + '<br>');
-        $("#single-chat").chatbox("option", "boxManager").addMsg("Mr. Foo", data.msg);
+        //$("#single-chat").chatbox("option", "boxManager").addMsg("Mr. Foo", data.msg);
+
+        //If the chat window is not open
+        $('ul#users li a').each(function(i,v){
+            if($(v).html()==username){
+                $(this).click();    
+            }    
+        });
+
         $("#user-chat").chatbox("option", "boxManager").addMsg(username, data.msg);
-		console.log(data);
 	}); 
 
+    // Join Room
 	socket.emit('joinRoom', superGlobal);
 	socket.emit('sendChat', { msg: 'User connected!' });
     $("#userId").html(superGlobal);
 
     //ChatBox Manager
-    var counter = 0;
-      var idList = new Array();
+    var counter = 0, idList = new Array();
 
       var broadcastMessageCallback = function(from, msg) {
+          console.log("broadcast called",from,msg);
           for(var i = 0; i < idList.length; i ++) {
               chatboxManager.addBox(idList[i]);
               $("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
@@ -57,12 +67,13 @@ $(document).ready(function(){
        }});
     });
     //ChatBox Single
+    /*
       $("#single-chat").chatbox({
                   user: 'admin',
                   title: 'Single Chat',
                   messageSent: function(id, user, msg){
 	                socket.emit('sendChat', { msg: msg, user: user});
       }});
- 
+    */
 });
 
