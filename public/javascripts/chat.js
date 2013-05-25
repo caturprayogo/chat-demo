@@ -15,8 +15,11 @@ $(document).ready(function(){
                 $(this).click();    
             }    
         });
-
+        console.log("++",$("div[id*=user-chat-]:visible").size())
+        var size = ($("div[id*=user-chat-]:visible").size()==1)?0:$("div[id*=user-chat-]:visible").size();
+        $("#user-chat-"+username).chatbox("option", "offset", 250*size)
         $("#user-chat-"+username).chatbox("option", "boxManager").addMsg(username, data.msg);
+
 	}); 
 
     // Join Room
@@ -53,21 +56,44 @@ $(document).ready(function(){
                                   });
           event.preventDefault();
       });
+
+    var getOffsetWin = function(){
+        console.log(250*($("div[id*=user-chat-]:visible").size()-1));    
+        return 250*($("div[id*=user-chat-]:visible").size()-1);    
+    }
+    var closedWin = function(){
+        //Re arrange windows
+        $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
+           $(this).chatbox("option", "offset", 250*i)
+        })
+		//$("#" + showList[i]).chatbox("option", "offset", offset - diff);
+    }
     // Select user to chat with
     $('ul#users li a').click(function(e){
        e.preventDefault();
        e.stopPropagation();
        if($("#user-chat-"+$(this).html()).size()==0){
             $("body").append("<div id='user-chat-"+$(this).html()+"'></div>")
-       }
-       $("body").find("#user-chat-"+$(this).html()).chatbox({
+            $("body").find("#user-chat-"+$(this).html()).chatbox({
                   user: $(this).html(),
                   title: 'Chat with '+$(this).html(),
-                  offset: 250,
+                  offset: getOffsetWin,
+			      boxClosed : closedWin,
                   messageSent: function(id, user, msg){
 	                socket.emit('sendChat', { msg: msg, user: user});
                     $("#user-chat-"+user).chatbox("option", "boxManager").addMsg(superGlobal, msg);
-       }});
+            }});
+       }else{
+           
+           //$(this).chatbox("option", "offset", 250*$("div[id*=user-chat-]:visible").size())
+           /*
+           console.log("re-arrange", $("#user-chat-"+$(this).html()))
+           $("#user-chat-"+$(this).html()).show();
+           $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
+             $(this).chatbox("option", "offset", 250*i)
+           });
+           */
+       }
     });
     //ChatBox Single
     /*
