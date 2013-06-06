@@ -1,4 +1,3 @@
-alert("aaaa")
     var getOffsetWin = function(){
         console.log(250*($("div[id*=user-chat-]:visible").size()-1));    
         return 250*($("div[id*=user-chat-]:visible").size()-1);    

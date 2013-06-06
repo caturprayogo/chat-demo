@@ -1,0 +1,22 @@
+{
+    "app": {
+        "domain" : "127.0.0.1",
+        "port": 3200
+    },
+	"auth": {
+		"facebook": {
+			"clientid" : "sample-id",
+			"clientsecret" : "sample-secret",
+			"callback" : "http://localhost:3200/auth/facebook/callback"
+		}
+	},
+    "db": {
+        "domain" : "localhost",
+        "name" : "chat-demo_dev",
+        "user" : "",
+        "pass" : ""
+    },
+    "session" : {
+        "secret" : "mybestsecret"
+    }
+}

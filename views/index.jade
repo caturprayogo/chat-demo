@@ -2,6 +2,18 @@ extends layout
 
 block content
   h1= title
+  - if (typeof user != 'undefined'){
+    //p=JSON.stringify(user)
+    li.user-name
+      | Bienvenido #{user.name}
+  -}
+
+  - if (typeof user == 'undefined'){
+    p
+      a.btn-login.btn-facebook(href='/auth/facebook',alt='Sign in with Facebook') Sign in with Facebook
+  -}
+
+
   p Welcome to #{title} 
     b#userId
   #single-chat
