@@ -63,6 +63,7 @@ passport.use(new FacebookStrategy({
     callbackURL: config.auth.facebook.callback
   },
   function(accessToken, refreshToken, profile, done) {
+    done(null, profile);
   }
 ));
 
