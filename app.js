@@ -35,7 +35,7 @@ switch(process.env.NODE_ENV) {
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3200);
+app.set('port', process.env.PORT || config.app.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -79,7 +79,7 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
 
-var server = exports.server = http.createServer(app).listen(app.get('port'), function(){
+var server = exports.server = http.createServer(app).listen(app.get('port'), config.app.domain, function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
