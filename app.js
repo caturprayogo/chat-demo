@@ -58,7 +58,6 @@ if ('development' == app.get('env')) {
 /**
 * Auth
 */
-//require('./auth.js');
 passport.use(new FacebookStrategy({
     clientID: config.auth.facebook.clientid,
     clientSecret: config.auth.facebook.clientsecret,
@@ -68,6 +67,14 @@ passport.use(new FacebookStrategy({
     done(null, profile);
   }
 ));
+
+passport.serializeUser(function(user, done) {
+      done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+      done(null, obj);
+});
 
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
