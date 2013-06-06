@@ -79,12 +79,12 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
 
+app.get('/', routes.index);
+app.get('/users', user.list);
+
 var server = exports.server = http.createServer(app).listen(app.get('port'), config.app.domain, function(){
   console.log("Express server listening on port " + app.get('port'));
 });
-
-app.get('/', routes.index);
-app.get('/users', user.list);
 
 /**
 * Socket.io
