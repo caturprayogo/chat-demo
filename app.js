@@ -70,7 +70,42 @@ passport.use(new FacebookStrategy({
     callbackURL: config.auth.facebook.callback
   },
   function(accessToken, refreshToken, profile, done) {
-    done(null, profile);
+    User.returningUser(profile.id,'FB', function(err, returningUser){
+        if(returningUser!=null){
+          // Returning User
+          returningUser.nLogins++;
+          returningUser.status = true;
+          returningUser.save();
+          console.log("Returning >> "+returningUser.username);
+        }else{
+          var gender = (profile.gender=='male'||profile.gender=='M')?'M':((profile.gender=='female'||profile.gender=='F')?'F':'U');
+          // New User FB
+          var gamer = new User({
+            identity      : profile.id,      
+            username      : profile.username,     
+            name          : profile.displayName,      
+            email         : profile.emails[0]['value'],      
+            created       : Date.now(),         
+            last_login    : Date.now(),          
+            gender        : gender,
+            location      : profile._json.location,     
+            language      : profile._json.locale,/* Different */ 
+            avatar        : 'http://graph.facebook.com/'+profile.id+'/picture',      
+            socialNetwork : 'FB',
+            status        : true,       
+            nLogins       : 1
+          });
+          gamer.save(function(err){
+              if(err){
+                  console.log("Error guardando usuario >>", err);
+              }else{
+                  console.log("Usuario guardado")
+              }
+          });
+        }
+    });
+
+    return done(null, profile);
   }
 ));
 
@@ -83,7 +118,7 @@ passport.serializeUser(function(user, done) {
 	  fbUser.name = user.displayName;
 	  fbUser.avatar = 'http://graph.facebook.com/'+user.id+'/picture';
 	  fbUser.socialNetwork = 'FB';
-	  fbUser.playing = false;
+	  fbUser.status = true;
 	  fbUser.gender = (user.gender=='male')?'M':((user.gender=='female')?'F':'U');
 	break;
 	default:

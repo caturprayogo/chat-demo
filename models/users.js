@@ -21,7 +21,6 @@ var userSchema = new Schema({
 	socialNetwork : { type    : String,
 						enum    : enumSocialNetwork,
 						default : 'U'},
-	playing       : Boolean,       
 	status        : Boolean,       
 	nLogins       : Number
 });
