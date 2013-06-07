@@ -1,7 +1,186 @@
 extends layout
 
 block content
-  h1= title
+  // Navigation 
+  nav.top-bar(style='')
+    ul.title-area
+      //
+         Title Area 
+      li.name
+        h1
+          a(href='#')
+            | Chat Demo
+      li.toggle-topbar.menu-icon
+        a(href='#demo')
+          span menu
+    section.top-bar-section
+      //
+         Right Nav Section 
+      ul.right
+        li.divider
+        li.has-dropdown
+          a(href='#demo') Main Item 1
+          ul.dropdown
+            li.title.back.js-generated
+              h5
+                a(href='#demo') « Back
+            li
+              label Section Name
+            li.has-dropdown
+              a.(href='#demo') Has Dropdown, Level 1
+              ul.dropdown
+                li.title.back.js-generated
+                  h5
+                    a(href='#demo') « Back
+                li
+                  a(href='#demo') Dropdown Options
+                li
+                  a(href='#demo') Dropdown Options
+                li
+                  a(href='#demo') Level 2
+                li
+                  a(href='#demo') Subdropdown Option
+                li
+                  a(href='#demo') Subdropdown Option
+                li
+                  a(href='#demo') Subdropdown Option
+            li
+              a(href='#demo') Dropdown Option
+            li
+              a(href='#demo') Dropdown Option
+            li.divider
+            li
+              label Section Name
+            li
+              a(href='#demo') Dropdown Option
+            li
+              a(href='#demo') Dropdown Option
+            li
+              a(href='#demo') Dropdown Option
+            li.divider
+            li
+              a(href='#demo') See all →
+        li.divider
+        li
+          a(href='#demo') Logout
+  // End Top Bar 
+  // Mobile Header 
+  .row
+    .large-12.columns.show-for-small
+      img(src='./mk1_files/1200x700&text=Mobile Header')
+  br
+  //
+     End Mobile Header 
+  .row
+    .large-12.columns
+      .row
+        //
+           Shows 
+        .large-4.small-6.columns
+          - if (typeof user == 'undefined'){
+          h4 Login
+          hr
+          .panel
+            a.btn-login.btn-facebook(href='/auth/facebook',alt='Sign in with Facebook') Sign in with Facebook
+            
+          - }
+          h4 Online Users
+          hr
+          .row
+            .large-1.column
+              img(src='./mk1_files/50x50&text=[img]')
+            .large-9.columns
+              h5
+                a(href='#demo') Venue Name
+              h6.subheader.show-for-small Doors at 00:00pm
+          hr
+          .hide-for-small
+            .row
+              .large-1.column
+                img(src='./mk1_files/50x50&text=[img]')
+              .large-9.columns
+                h5.subheader
+                  a(href='#demo') Venue Name
+            hr
+            .row
+              .large-1.column
+                img(src='./mk1_files/50x50&text=[img]')
+              .large-9.columns
+                h5.subheader
+                  a(href='#demo') Venue Name
+            hr
+            .row
+              .large-1.column
+                img(src='./mk1_files/50x50&text=[img]')
+              .large-9.columns
+                h5.subheader
+                  a(href='#demo') Venue Name
+        //
+           End Shows 
+        //
+           Image 
+        .large-4.small-6.columns
+          img(src='./mk1_files/300x465&text=Image')
+        //
+           End Image 
+        //
+           Feed 
+        .large-4.small-12.columns
+          - if (typeof user != 'undefined'){
+          h4 Profile
+          hr
+          .panel
+            h5
+              a(href='#demo') Presentation
+            h6.subheader
+              | #{user.name}
+          - }
+          h4 Material
+          hr
+          .panel
+            h5
+              a(href='https://docs.google.com/presentation/d/1M0d_okrkOaaosGHxrZBOarjc1NNqKwd6kXBWmvdy1dk/edit?usp=sharing') Presentation
+            h6.subheader
+              | Go to the presentation
+            h6
+              a(href='https://docs.google.com/presentation/d/1M0d_okrkOaaosGHxrZBOarjc1NNqKwd6kXBWmvdy1dk/edit?usp=sharing') Download »
+          .panel.hide-for-small
+            h5
+              a(href='https://www.gosquared.com/blog/archives/1930') Node.JS Help Sheet »
+          .panel.hide-for-small
+            h5
+              a(href='#demo') Useful Links »
+        //
+           End Feed 
+    //
+       Github Added 
+    a(href='https://github.com/cortezcristian/chat-demo')
+      img(style='position: absolute; top: 45px; left: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png', alt='Fork me on GitHub')
+  //
+     End Content 
+  //
+     Footer 
+  footer.row
+    .large-12.columns
+      hr
+      .row
+        .large-6.columns
+          p
+            | © Copyright 
+            a(href='https://twitter.com/cortezcristian') @cortezcristian
+            | .
+        .large-6.small-12.columns
+          ul.inline-list.right
+            li
+              a(href='https://github.com/cortezcristian/chat-demo') GitHub Repo
+            li
+              a(href='https://github.com/cortezcristian') GitHub Profile
+            li
+              a(href='http://cortezcristian.com/blog/') Blog
+  //
+     End Footer 
+
+  // Oldie :D
   - if (typeof user != 'undefined'){
     //p=JSON.stringify(user)
     li.user-name
@@ -27,20 +206,3 @@ block content
           a(href=usr.id) #{usr.username}
       -});
   -}
-
-  script
-    $(document).ready(function(){
-          /*
-          // to create
-          $("#single-chat").chatbox({
-                                  id : "single-chat",
-                                  title : "Title",
-                                  user : "can be anything"
-                                  offset: 200,
-                                  messageSent: function(id, user, msg){
-                                       alert("DOM " + id + " just typed in " + msg);
-                                  }});
-          // to insert a message
-          $("#single-chat").chatbox("option", "boxManager").addMsg("Mr. Foo", "Barrr!");
-           */
-      });

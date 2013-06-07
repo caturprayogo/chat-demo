@@ -1,17 +1,41 @@
 doctype 5
-html
+//if IE 8
+  html(class="no-js lt-ie9", lang="en")
+// [if gt IE 8] <!
+html(class="no-js", lang="en")
+  // <![endif]
   head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(charset='utf-8')
+    // Set the viewport width to device width for mobile 
+    meta(name='viewport', content='width=device-width')
+
     title= title
+
+    link(rel='stylesheet', href='http://foundation.zurb.com/page-templates4/css/normalize.css')
+    link(rel='stylesheet', href='http://foundation.zurb.com/page-templates4/css/foundation.css')
+    script(src='./js/vendor/custom.modernizr.js')
+
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='css/ui-lightness/jquery-ui-1.8.2.custom.css')
+    link(type='text/css', href='css/jquery.ui.chatbox.css', rel='stylesheet')
+
+  body
+    block content
+     
+    script
+      document.write('<script src=js/vendor/' +
+      ('__proto__' in {} ? 'zepto' : 'jquery') +
+      '.js><\\/script>')
+    script(src='./js/vendor/zepto.js')
+    script(src='./js/foundation.min.js')
+    script
+      $(document).foundation();
     script(type='text/javascript', src='javascripts/jquery-1.4.2.min.js')
     script(type='text/javascript', src='javascripts/jquery-ui-1.8.2.custom.min.js')
-    link(type='text/css', href='css/jquery.ui.chatbox.css', rel='stylesheet')
     script(type='text/javascript', src='javascripts/jquery.ui.chatbox.js')
     script(type='text/javascript', src='javascripts/chatboxManager.js')
     script(src='/socket.io/socket.io.js')
     script
       //var superGlobal = prompt("Tu nombre de usuario?");
     script(src='/javascripts/chat.js') 
-  body
-    block content
