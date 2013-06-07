@@ -7,8 +7,10 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+  , utils = require('./utils')
   , passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy
+  , User = require('./models/users.js')
   , path = require('path')
   , config = {};
 
@@ -30,6 +32,10 @@ switch(process.env.NODE_ENV) {
     break;
 }
 
+/**
+* Database Connection
+*/
+var dbConex = exports.dbConex = utils.dbConnection(config.db.domain,config.db.name,config.db.user,config.db.pass);
 
 
 var app = express();
@@ -69,7 +75,22 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-      done(null, user);
+  var fbUser = {};
+  switch(user.provider){
+	case 'facebook':
+	  fbUser.identity = parseInt(user.id);
+	  fbUser.playerId = parseInt(user.id)+'FB';
+	  fbUser.name = user.displayName;
+	  fbUser.avatar = 'http://graph.facebook.com/'+user.id+'/picture';
+	  fbUser.socialNetwork = 'FB';
+	  fbUser.playing = false;
+	  fbUser.gender = (user.gender=='male')?'M':((user.gender=='female')?'F':'U');
+	break;
+	default:
+  }
+  
+  done(null, fbUser);
+
 });
 
 passport.deserializeUser(function(obj, done) {
