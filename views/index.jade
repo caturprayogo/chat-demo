@@ -91,12 +91,12 @@ block content
           hr //Hide/show
 
           - if (typeof user != 'undefined'){
-            -var users = [{"username":"alfa", "online":true},{"username":"beta", "online":false}]
+            //-var users = [{"username":"alfa", "online":true},{"username":"beta", "online":false}]
             ul#users
               -users.forEach(function(usr){
                 li
                   a(href="#",class="isonline")
-                    img.profile(src='./mk1_files/30x30&text=[img]')
+                    img.profile(src=usr.avatar)
                     | #{usr.username}
               -});
           - } else {

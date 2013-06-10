@@ -4,8 +4,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , utils = require('./utils')
   , passport = require('passport')
@@ -146,8 +144,12 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/', function(req, res){
+    User.find({online:true}, function(err, userList){
+      res.render('index', { title: 'Chat', user: req.user, users: userList });
+    });
+});
+//app.get('/users', user.list);
 
 app.get('/logout', function(req, res){
   req.logout();
