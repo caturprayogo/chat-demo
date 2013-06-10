@@ -63,7 +63,7 @@ block content
               a(href='#demo') See all →
         li.divider
         li
-          a(href='#demo') Logout
+          a(href='/logout') Logout
   // End Top Bar 
   // Mobile Header 
   .row
@@ -86,19 +86,19 @@ block content
             
           - }
           h4  
-            span.user-counter 5
+            span.user-counter #{users.length||0}
             |  Online Users
           hr //Hide/show
 
           - if (typeof user != 'undefined'){
             //-var users = [{"username":"alfa", "online":true},{"username":"beta", "online":false}]
             ul#users
-              -users.forEach(function(usr){
+              -users.forEach(function(usr){ if(user.identity!=usr.identity){
                 li
-                  a(href="#",class="isonline")
+                  a(href="#",class="isonline",data-idusr=usr.identity)
                     img.profile(src=usr.avatar)
                     | #{usr.username}
-              -});
+              -}});
           - } else {
             .row
               .large-1.column
@@ -145,10 +145,10 @@ block content
           h4 Profile
           hr
           .panel
-            h5
-              a(href='#demo') Presentation
+            h5 Welcome
             h6.subheader
-              | #{user.name}
+              img.profile(src=user.avatar)
+              |  #{user.name}
           - }
           h4 Material
           hr
@@ -195,5 +195,13 @@ block content
   //
      End Footer 
 
-  // Oldie :D
+block scriptFoot
+  - if (typeof user == 'undefined'){
+    script
+      var superGlobal;
+  - } else {
+    script
+      window.superGlobal = #{user.identity};
+  - }
+  script(src='/javascripts/chat.js') 
 

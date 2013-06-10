@@ -12,7 +12,7 @@
 
 jQuery(document).ready(function(){
     if(typeof superGlobal!="undefined"){
-    var port = (window.location.port=="")?":3200":"";
+    var port = (window.location.port=="")?":80":"";
     var socket = io.connect('http://'+window.location.host+port);
 
     //Receive chat
@@ -23,7 +23,7 @@ jQuery(document).ready(function(){
 
         //If the chat window is not open
         $('ul#users li a').each(function(i,v){
-            if($(v).html()==username){
+            if($(v).attr('data-idusr')==username){
                 $(this).click();    
             }    
         });
@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
 	socket.on('joinedUser', function (username) {
 		console.log('joinedUser>>',username);
         $('ul#users li a').each(function(i,v){
-            if($(v).html()==username){
+            if($(v).attr('data-idusr')==username){
                 $(this).addClass('online');    
             }    
         });
@@ -48,7 +48,7 @@ jQuery(document).ready(function(){
 	socket.on('logoutUser', function (username) {
 		console.log('joinedUser>>',username);
         $('ul#users li a').each(function(i,v){
-            if($(v).html()==username){
+            if($(v).attr('data-idusr')==username){
                 $(this).removeClass('online');    
             }    
         });
@@ -57,7 +57,7 @@ jQuery(document).ready(function(){
     // Join Room
 	socket.emit('joinRoom', superGlobal);
 	//socket.emit('sendChat', { msg: 'User connected!' });
-    $("#userId").html(superGlobal);
+    //$("#userId").attr('data-idusr'superGlobal);
 
     //ChatBox Manager
     var counter = 0, idList = new Array();
@@ -94,14 +94,16 @@ jQuery(document).ready(function(){
     $('ul#users li a').live("click",function(e){
        e.preventDefault();
        e.stopPropagation();
-       if($("#user-chat-"+$(this).html()).size()==0){
-            $("body").append("<div id='user-chat-"+$(this).html()+"'></div>")
-            $("body").find("#user-chat-"+$(this).html()).chatbox({
-                  user: $(this).html(),
-                  title: 'Chat with '+$(this).html(),
+       if($("#user-chat-"+$(this).attr('data-idusr')).size()==0){
+           console.log($("#user-chat-"+$(this).attr('data-idusr')))
+            $("body").append("<div id='user-chat-"+$(this).attr('data-idusr')+"' data-idusr='"+$(this).attr('data-idusr')+"'></div>")
+            $("body").find("#user-chat-"+$(this).attr('data-idusr')).chatbox({
+                  user: $(this).attr('data-idusr'),
+                  title: $(this).html(),
                   offset: getOffsetWin,
 			      boxClosed : closedWin,
                   messageSent: function(id, user, msg){
+                    console.log(user);
 	                socket.emit('sendChat', { msg: msg, user: user});
                     $("#user-chat-"+user).chatbox("option", "boxManager").addMsg(superGlobal, msg);
             }});
@@ -109,26 +111,17 @@ jQuery(document).ready(function(){
            
            //$(this).chatbox("option", "offset", 250*$("div[id*=user-chat-]:visible").size())
            /*
-           console.log("re-arrange", $("#user-chat-"+$(this).html()))
-           $("#user-chat-"+$(this).html()).show();
+           console.log("re-arrange", $("#user-chat-"+$(this).attr('data-idusr')))
+           $("#user-chat-"+$(this).attr('data-idusr')).show();
            */
             console.log("already exist");
             var size = ($("div[id*=user-chat-]:visible").size()==1)?0:$("div[id*=user-chat-]:visible").size();
-            $("#user-chat-"+$(this).html()).show().parent().show().parent().show();//.chatbox("option", "offset", 250*size);
+            $("#user-chat-"+$(this).attr('data-idusr')).show().parent().show().parent().show();//.chatbox("option", "offset", 250*size);
             $("div[id*=user-chat-]:visible").each(function(i,v){ //console.log(i,v)
                $(this).chatbox("option", "offset", 250*i)
             });
        }
     });
-    //ChatBox Single
-    /*
-      $("#single-chat").chatbox({
-                  user: 'admin',
-                  title: 'Single Chat',
-                  messageSent: function(id, user, msg){
-	                socket.emit('sendChat', { msg: msg, user: user});
-      }});
-    */
     console.log("ready loaded")
     }
 });
