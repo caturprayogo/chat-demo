@@ -44,7 +44,8 @@ var app = express();
 app.set('port', process.env.PORT || config.app.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.favicon());
+//app.use(express.favicon());
+app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -74,7 +75,7 @@ passport.use(new FacebookStrategy({
         if(returningUser!=null){
           // Returning User
           returningUser.nLogins++;
-          returningUser.status = true;
+          returningUser.online = true;
           returningUser.save();
           console.log("Returning >> "+returningUser.username);
         }else{
@@ -92,7 +93,7 @@ passport.use(new FacebookStrategy({
             language      : profile._json.locale,/* Different */ 
             avatar        : 'http://graph.facebook.com/'+profile.id+'/picture',      
             socialNetwork : 'FB',
-            status        : true,       
+            online        : true,       
             nLogins       : 1
           });
           gamer.save(function(err){
@@ -118,7 +119,7 @@ passport.serializeUser(function(user, done) {
 	  fbUser.name = user.displayName;
 	  fbUser.avatar = 'http://graph.facebook.com/'+user.id+'/picture';
 	  fbUser.socialNetwork = 'FB';
-	  fbUser.status = true;
+	  fbUser.online = true;
 	  fbUser.gender = (user.gender=='male')?'M':((user.gender=='female')?'F':'U');
 	break;
 	default:
@@ -147,6 +148,11 @@ app.get('/auth/facebook/callback',
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 var server = exports.server = http.createServer(app).listen(app.get('port'), config.app.domain, function(){
   console.log("Express server listening on port " + app.get('port'));

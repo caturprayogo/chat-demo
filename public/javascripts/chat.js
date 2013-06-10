@@ -1,4 +1,3 @@
-    var superGlobal;
     var getOffsetWin = function(){
         console.log(250*($("div[id*=user-chat-]:visible").size()-1));    
         return 250*($("div[id*=user-chat-]:visible").size()-1);    
@@ -11,7 +10,8 @@
 		//$("#" + showList[i]).chatbox("option", "offset", offset - diff);
     }
 
-//jQuery(document).ready(function(){
+jQuery(document).ready(function(){
+    if(typeof superGlobal!="undefined"){
     var port = (window.location.port=="")?":3200":"";
     var socket = io.connect('http://'+window.location.host+port);
 
@@ -130,5 +130,6 @@
       }});
     */
     console.log("ready loaded")
-//});
+    }
+});
 

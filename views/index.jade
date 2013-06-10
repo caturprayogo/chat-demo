@@ -9,6 +9,7 @@ block content
       li.name
         h1
           a(href='#')
+            img.logo(src='./images/chat-icon-75.png')
             | Chat Demo
       li.toggle-topbar.menu-icon
         a(href='#demo')
@@ -80,41 +81,55 @@ block content
           - if (typeof user == 'undefined'){
           h4 Login
           hr
-          .panel
+          .panel.fb-panel
             a.btn-login.btn-facebook(href='/auth/facebook',alt='Sign in with Facebook') Sign in with Facebook
             
           - }
-          h4 Online Users
-          hr
-          .row
-            .large-1.column
-              img(src='./mk1_files/50x50&text=[img]')
-            .large-9.columns
-              h5
-                a(href='#demo') Venue Name
-              h6.subheader.show-for-small Doors at 00:00pm
-          hr
-          .hide-for-small
+          h4  
+            span.user-counter 5
+            |  Online Users
+          hr //Hide/show
+
+          - if (typeof user != 'undefined'){
+            -var users = [{"username":"alfa", "online":true},{"username":"beta", "online":false}]
+            ul#users
+              -users.forEach(function(usr){
+                li
+                  a(href="#",class="isonline")
+                    img.profile(src='./mk1_files/30x30&text=[img]')
+                    | #{usr.username}
+              -});
+          - } else {
             .row
               .large-1.column
                 img(src='./mk1_files/50x50&text=[img]')
               .large-9.columns
-                h5.subheader
+                h5
                   a(href='#demo') Venue Name
+                h6.subheader.show-for-small Available now!
             hr
-            .row
-              .large-1.column
-                img(src='./mk1_files/50x50&text=[img]')
-              .large-9.columns
-                h5.subheader
-                  a(href='#demo') Venue Name
-            hr
-            .row
-              .large-1.column
-                img(src='./mk1_files/50x50&text=[img]')
-              .large-9.columns
-                h5.subheader
-                  a(href='#demo') Venue Name
+            .hide-for-small
+              .row
+                .large-1.column
+                  img(src='./mk1_files/50x50&text=[img]')
+                .large-9.columns
+                  h5.subheader
+                    a(href='#demo') Venue Name
+              hr
+              .row
+                .large-1.column
+                  img(src='./mk1_files/50x50&text=[img]')
+                .large-9.columns
+                  h5.subheader
+                    a(href='#demo') Venue Name
+              hr
+              .row
+                .large-1.column
+                  img(src='./mk1_files/50x50&text=[img]')
+                .large-9.columns
+                  h5.subheader
+                    a(href='#demo') Venue Name
+          - }
         //
            End Shows 
         //
@@ -181,28 +196,4 @@ block content
      End Footer 
 
   // Oldie :D
-  - if (typeof user != 'undefined'){
-    //p=JSON.stringify(user)
-    li.user-name
-      | Bienvenido #{user.name}
-  -}
 
-  - if (typeof user == 'undefined'){
-    p
-      a.btn-login.btn-facebook(href='/auth/facebook',alt='Sign in with Facebook') Sign in with Facebook
-  -}
-
-
-  p Welcome to #{title} 
-    b#userId
-  #single-chat
-  #user-chat
-  p
-    a#link_add Add
-  -if(typeof users!="undefined"){
-    ul#users
-      -users.forEach(function(usr){
-        li
-          a(href=usr.id) #{usr.username}
-      -});
-  -}
