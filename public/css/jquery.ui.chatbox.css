@@ -11,7 +11,7 @@
 
 .ui-chatbox-titlebar {
     padding: 3px 3px 3px 3px;
-    height: 20px;
+    height: 25px;
 }
 
 .ui-chatbox-content {
@@ -31,7 +31,7 @@
     padding: 3px 3px 3px 3px;
     border-top: 1px solid grey;
     overflow: hidden;
-    /* background: #FFFFFF; */
+    background: #EEE url(ui-bg_highlight-soft.png) 50% top repeat-x;
 }
 
 .ui-chatbox-input-box {
