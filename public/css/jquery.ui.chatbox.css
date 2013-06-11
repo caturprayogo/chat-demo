@@ -54,7 +54,16 @@
     clear: both;
 }
 
+.ui-widget-header span {
+    font-size: 14px;
+}
+
+.ui-widget-header .profile {
+  width: 16px;    
+  margin: 0 4px 4px; 
+}
 /* List styles */
 .online {
+
       background-color: #008000;
 }
