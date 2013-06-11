@@ -2,26 +2,12 @@ var parent = module.parent.exports
   , app = parent.app
   , server = parent.server
   , config = parent.config
-//  , Sessions = require('./models/sessions.js') //access to the DB
-//  , Partida = require('./models/games.js')
+  , User = require('./models/users.js') 
   , mongooseSessionStore = parent.SessionStore
   , express = require('express')
   , parseSignedCookie = require('connect').utils.parseSignedCookie
   , cookie = require('cookie')
-////  , ObjectId = require('mongoose').Types.ObjectId
   , sio = require('socket.io');
-
- /**
- * Socket.IO functionality
- * http://stackoverflow.com/questions/13095418/how-to-use-passport-with-express-and-socket-io
- * sessionStore.get(sessionId, callback)
- * sessionStore.set(sessionId, data, callback) 
- * sessionStore.destroy(sessionId, callback) 
- * sessionStore.all(callback)    // returns all available sessions
- * sessionStore.clear(callback)  // deletes all session data
- * sessionStore.length(callback) // returns number of sessions in the 
- */
-
 
 
 var io = sio.listen(server);
@@ -55,6 +41,7 @@ io.sockets.on('connection', function (socket) {
         socket.set('room', room, function() { console.log('room ' + room + ' saved'); } );
         socket.username = room;
         socket.join(room);
+        User.login(socket.username);
         //to all sockets
 	    io.sockets.emit('joinedUser', socket.username);
     });
@@ -73,6 +60,7 @@ io.sockets.on('connection', function (socket) {
         console.log("Sockets in room "+io.sockets.clients(socket.username).length)
         if(io.sockets.clients(socket.username).length==1){
             //Update Status in DB
+            User.logout(socket.username);
         }   
         //to all sockets
         io.sockets.emit('logoutUser', socket.username);
