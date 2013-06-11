@@ -69,6 +69,13 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-	    io.sockets.emit('logoutUser', socket.username);
+        console.log("Disconnected "+socket.username);                                                                                                                     
+        console.log("Sockets in room "+io.sockets.clients(socket.username).length)
+        if(io.sockets.clients(socket.username).length==1){
+            //Update Status in DB
+        }   
+        //to all sockets
+        io.sockets.emit('logoutUser', socket.username);
+
     });
 });
