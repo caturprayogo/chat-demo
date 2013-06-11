@@ -13,7 +13,7 @@
 jQuery(document).ready(function(){
     if(typeof superGlobal!="undefined"){
     var port = (window.location.port=="")?":80":"";
-    var socket = io.connect('http://'+window.location.host+port);
+    var socket = io.connect('http://'+window.location.host+port,{'sync disconnect on unload': true });
 
     //Receive chat
 	socket.on('chatIn', function (username, data) {

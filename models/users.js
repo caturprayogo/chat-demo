@@ -29,6 +29,20 @@ userSchema.statics.returningUser = function (id, sN, cb) {
       this.findOne({ identity: id, socialNetwork : sN }, cb);
 }
 
+userSchema.statics.login = function (idUser) {
+      this.findOne({ identity: idUser }, function(err, user){
+        user.online = true;
+        user.save();
+      });
+}
+
+userSchema.statics.logout = function (idUser) {
+      this.findOne({ identity: idUser }, function(err, user){
+        user.online = false;
+        user.save();
+      });
+}
+
 userSchema.statics.findByUsername = function (username, cb) {
       this.find({ name: new RegExp(username, 'i') }, cb);
 }
