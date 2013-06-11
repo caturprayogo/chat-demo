@@ -18,7 +18,7 @@ jQuery(document).ready(function(){
     //Receive chat
 	socket.on('chatIn', function (username, data) {
 		console.log('chatIn>>',data);
-        $('body').append('<b>'+username + ':</b> ' + data.msg + '<br>');
+        //$('body').append('<b>'+username + ':</b> ' + data.msg + '<br>');
         //$("#single-chat").chatbox("option", "boxManager").addMsg("Mr. Foo", data.msg);
 
         //If the chat window is not open
@@ -30,7 +30,7 @@ jQuery(document).ready(function(){
         console.log("++",$("div[id*=user-chat-]:visible").size())
         var size = ($("div[id*=user-chat-]:visible").size()==1)?0:$("div[id*=user-chat-]:visible").size();
         $("#user-chat-"+username).chatbox("option", "offset", 250*size)
-        $("#user-chat-"+username).chatbox("option", "boxManager").addMsg(username, data.msg);
+        $("#user-chat-"+username).chatbox("option", "boxManager").addMsg(data.name.split(" ")[0].substring(0,10)||username, data.msg);
 
 	}); 
 
@@ -98,14 +98,15 @@ jQuery(document).ready(function(){
            console.log($("#user-chat-"+$(this).attr('data-idusr')))
             $("body").append("<div id='user-chat-"+$(this).attr('data-idusr')+"' data-idusr='"+$(this).attr('data-idusr')+"'></div>")
             $("body").find("#user-chat-"+$(this).attr('data-idusr')).chatbox({
-                  user: $(this).attr('data-idusr'),
+                  user: $(this).html().replace(/<img.*>/,""),
+                  id: $(this).attr('data-idusr'),
                   title: $(this).html(),
                   offset: getOffsetWin,
 			      boxClosed : closedWin,
                   messageSent: function(id, user, msg){
-                    console.log(user);
-	                socket.emit('sendChat', { msg: msg, user: user});
-                    $("#user-chat-"+user).chatbox("option", "boxManager").addMsg(superGlobal, msg);
+                    console.log(">>>", id);
+	                socket.emit('sendChat', { msg: msg, user: id, name: currentUserName});
+                    $("#user-chat-"+id).chatbox("option", "boxManager").addMsg("Me", msg);
             }});
        }else{
            

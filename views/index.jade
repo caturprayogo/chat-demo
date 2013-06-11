@@ -202,6 +202,7 @@ block scriptFoot
   - } else {
     script
       window.superGlobal = #{user.identity};
+      window.currentUserName = '#{user.name}';
   - }
   script(src='/javascripts/chat.js') 
 
