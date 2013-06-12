@@ -42,6 +42,7 @@ jQuery(document).ready(function(){
                 $(this).addClass('online');    
             }    
         });
+        socket.emit('askUserList');
 	}); 
 
     //user left the site
@@ -52,7 +53,13 @@ jQuery(document).ready(function(){
                 $(this).removeClass('online');    
             }    
         });
+        socket.emit('askUserList');
 	}); 
+
+    //receive user list
+    socket.on('receiveUserList', function (list) {
+        console.log('UserList>>',list, typeof list);
+    });
 
     // Join Room
 	socket.emit('joinRoom', superGlobal);
@@ -75,21 +82,6 @@ jQuery(document).ready(function(){
       // the code is not very clean, I just want to reuse it to manage multiple chatboxes
       chatboxManager.init({messageSent : broadcastMessageCallback});
 
-      $("#link_add").click(function(event, ui) {
-          counter ++;
-          var id = "box" + counter;
-          idList.push(id);
-          chatboxManager.addBox(id, 
-                                  {dest:"dest" + counter, // not used in demo
-                                   title:"box" + counter,
-                                   first_name:"First" + counter,
-                                   last_name:"Last" + counter
-                                   //you can add your own options too
-                                  });
-          event.preventDefault();
-      });
-
-   
     // Select user to chat with
     $('ul#users li a').live("click",function(e){
        e.preventDefault();
@@ -100,7 +92,7 @@ jQuery(document).ready(function(){
             $("body").find("#user-chat-"+$(this).attr('data-idusr')).chatbox({
                   user: $(this).html().replace(/<img.*>/,""),
                   id: $(this).attr('data-idusr'),
-                  title: $(this).html(),
+                  title: $(this).html().substr(0,$(this).html().match(/<img.*>/)[0].length+18),
                   offset: getOffsetWin,
 			      boxClosed : closedWin,
                   messageSent: function(id, user, msg){

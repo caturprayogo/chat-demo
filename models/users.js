@@ -31,15 +31,19 @@ userSchema.statics.returningUser = function (id, sN, cb) {
 
 userSchema.statics.login = function (idUser) {
       this.findOne({ identity: idUser }, function(err, user){
-        user.online = true;
-        user.save();
+        if(err!=null){
+          user.online = true;
+          user.save();
+        }
       });
 }
 
 userSchema.statics.logout = function (idUser) {
       this.findOne({ identity: idUser }, function(err, user){
-        user.online = false;
-        user.save();
+        if(err!=null){
+          user.online = false;
+          user.save();
+        }
       });
 }
 
