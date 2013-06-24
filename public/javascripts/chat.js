@@ -59,6 +59,15 @@ jQuery(document).ready(function(){
     //receive user list
     socket.on('receiveUserList', function (list) {
         console.log('UserList>>',list, typeof list);
+        $('ul#users').empty();
+        $.each(list, function(i,v){
+            if(v.identity!=superGlobal){
+                //Add item
+                var temp = '<li><a href="#" data-idusr="'+v.identity+'" class="isonline online"><img src="http://graph.facebook.com/'+v.identity+'/picture" class="profile">'+(v.username?v.username:'')+'</a></li>';
+                $('ul#users').append(temp);
+            }
+        });
+        $('span.user-counter').html(list.length);
     });
 
     // Join Room

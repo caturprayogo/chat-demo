@@ -100,35 +100,14 @@ block content
                     | #{usr.username}
               -}});
           - } else {
-            .row
-              .large-1.column
-                img(src='./mk1_files/50x50&text=[img]')
-              .large-9.columns
-                h5
-                  a(href='#demo') Venue Name
-                h6.subheader.show-for-small Available now!
-            hr
-            .hide-for-small
-              .row
+            -users.forEach(function(usr, index){
+              div(class='row '+((index==0)?'':'hide-for-small'))
                 .large-1.column
-                  img(src='./mk1_files/50x50&text=[img]')
+                  img(src=src=usr.avatar) 
                 .large-9.columns
-                  h5.subheader
-                    a(href='#demo') Venue Name
-              hr
-              .row
-                .large-1.column
-                  img(src='./mk1_files/50x50&text=[img]')
-                .large-9.columns
-                  h5.subheader
-                    a(href='#demo') Venue Name
-              hr
-              .row
-                .large-1.column
-                  img(src='./mk1_files/50x50&text=[img]')
-                .large-9.columns
-                  h5.subheader
-                    a(href='#demo') Venue Name
+                  h5.subheader #{usr.name}
+              hr(class=((index==0)?'':'hide-for-small'))
+            -});
           - }
         //
            End Shows 
