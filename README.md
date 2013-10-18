@@ -1,7 +1,7 @@
 # chat-demo
 
 Is a chat application build on top cutting edge technologies like Node.JS, Express, Socket.io and MongoDB. 
-The UX is like facebook chat or gmail, and would be easy to integrate in other platforms by including some Javascript files.
+The UX is like facebook chat or gtalk, and would be easy to integrate in other platforms by including some Javascript files.
 
 ![Preview](https://raw.github.com/cortezcristian/chat-demo/develop/demo/demo.png)
 
