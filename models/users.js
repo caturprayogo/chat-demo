@@ -31,7 +31,7 @@ userSchema.statics.returningUser = function (id, sN, cb) {
 
 userSchema.statics.login = function (idUser) {
       this.findOne({ identity: idUser }, function(err, user){
-        if(err!=null){
+        if(user!=null){
           user.online = true;
           user.save();
         }
@@ -39,9 +39,11 @@ userSchema.statics.login = function (idUser) {
 }
 
 userSchema.statics.logout = function (idUser) {
+      console.log('Logout');
       this.findOne({ identity: idUser }, function(err, user){
-        if(err!=null){
+        if(user!=null){
           user.online = false;
+          console.log("goodbybe!");
           user.save();
         }
       });

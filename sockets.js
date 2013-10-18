@@ -55,6 +55,12 @@ io.sockets.on('connection', function (socket) {
 	    //socket.broadcast.emit('chatIn', {msg:data.msg});
     });
 
+    socket.on('askUserList', function(data){
+        User.find({online:true}, function(err, list){
+            socket.emit('receiveUserList', list);
+        });
+    });
+
     socket.on('disconnect', function () {
         console.log("Disconnected "+socket.username);                                                                                                                     
         console.log("Sockets in room "+io.sockets.clients(socket.username).length)
