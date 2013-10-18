@@ -1,0 +1,47 @@
+a {
+  color: #00b7ff;
+}
+.fb-panel {
+  background: #3b5998;
+  padding: 0;
+}
+.fb-panel a {
+  color: #fff;
+  display: block;
+  padding: 20px;
+  border: 1px solid #0f6e94;
+}
+.fb-panel a:hover {
+  border: 1px solid #fff;
+}
+.top-bar.expanded {
+  z-index: 2;
+}
+.profile {
+  width: 32px;
+}
+.logo {
+  width: 40px;
+  margin-right: 15px;
+}
+#users {
+  list-style: none;
+}
+#users li {
+  min-height: 32px;
+}
+#users li a {
+  line-height: 32px;
+  padding-left: 20px;
+  display: block;
+}
+#users li a.isonline {
+  background: transparent url("../images/online.png") 7px 50% no-repeat;
+}
+#users li a:hover {
+  color: #000;
+  background-color: #e0e4ee;
+}
+#users li img.profile {
+  margin-right: 10px;
+}

@@ -1,4 +1,5 @@
 lib-cov
+node_modules
 *.seed
 *.log
 *.csv
@@ -6,6 +7,8 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.swo
+*.swp
 
 pids
 logs
