@@ -152,6 +152,10 @@ app.get('/', function(req, res){
 //app.get('/users', user.list);
 
 app.get('/logout', function(req, res){
+  console.log(req.user);
+  if(typeof req.user != "undefined"){
+      User.logout(req.user.identity);
+  }
   req.logout();
   res.redirect('/');
 });
