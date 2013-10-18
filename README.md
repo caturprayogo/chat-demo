@@ -5,7 +5,8 @@ The UX is like facebook chat or gtalk, and would be easy to integrate in other p
 
 ![Preview](https://raw.github.com/cortezcristian/chat-demo/develop/demo/demo.png)
 
-## Dependencies 
+## Demo 
+In this demo you need to login via facebook to start chatting with your friends.
 [Live Demo](http://72.44.82.66/)
 
 ## Dependencies 
