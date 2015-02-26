@@ -176,10 +176,10 @@ block content
 
 block scriptFoot
   - if (typeof user == 'undefined'){
-    script
+    script.
       var superGlobal;
   - } else {
-    script
+    script.
       window.superGlobal = #{user.identity};
       window.currentUserName = '#{user.name}';
   - }
