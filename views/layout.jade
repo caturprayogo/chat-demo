@@ -23,13 +23,13 @@ html(class="no-js", lang="en")
   body
     block content
      
-    script
+    script.
       document.write('<script src=js/vendor/' +
       ('__proto__' in {} ? 'zepto' : 'jquery') +
       '.js><\\/script>')
     script(src='./js/vendor/zepto.js')
     script(src='./js/foundation.min.js')
-    script
+    script.
       $(document).foundation();
     script(type='text/javascript', src='javascripts/jquery-1.4.2.min.js')
     script(type='text/javascript', src='javascripts/jquery-ui-1.8.2.custom.min.js')
