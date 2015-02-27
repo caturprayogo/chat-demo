@@ -1,5 +1,7 @@
 # chat-demo
 
+NOTE: This is from 2013 and is no longer maintained
+
 Is a chat application build on top cutting edge technologies like Node.JS, Express, Socket.io and MongoDB. 
 The UX is like facebook chat or gtalk, and would be easy to integrate in other platforms by including some Javascript files.
 
